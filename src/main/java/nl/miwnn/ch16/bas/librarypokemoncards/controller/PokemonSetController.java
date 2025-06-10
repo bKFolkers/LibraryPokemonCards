@@ -6,9 +6,8 @@ import nl.miwnn.ch16.bas.librarypokemoncards.repositories.PokemonCardRepository;
 import nl.miwnn.ch16.bas.librarypokemoncards.repositories.PokemonSetRepository;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
 
@@ -34,6 +33,24 @@ public class PokemonSetController {
         datamodel.addAttribute("allPokemonSets", pokemonSetRepository.findAll());
 
         return "pokemonSetOverview";
+    }
+
+    @GetMapping("/pokemonset/new")
+    private String showNewPokemonSetForm(Model datamodel) {
+        datamodel.addAttribute("formPokemonSet", new PokemonSet());
+        return "pokemonSetForm";
+    }
+
+    @PostMapping("/pokemonset/save")
+    private String saveOrUpdatePokemonSet(@ModelAttribute("formPokemonSet") PokemonSet pokemonSetToBeSaved,
+                                           BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            System.err.println(bindingResult.getAllErrors());
+        } else {
+            pokemonSetRepository.save(pokemonSetToBeSaved);
+        }
+
+        return "redirect:/pokemonset/overview";
     }
 
     @GetMapping("/new/{pokemonCardId}")

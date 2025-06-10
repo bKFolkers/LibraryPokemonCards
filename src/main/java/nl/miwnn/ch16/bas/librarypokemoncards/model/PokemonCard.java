@@ -1,8 +1,6 @@
 package nl.miwnn.ch16.bas.librarypokemoncards.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 
 /**
  * @author Bas Folkers
@@ -12,10 +10,13 @@ import jakarta.persistence.Id;
 @Entity
 public class PokemonCard {
     @Id @GeneratedValue
-    private long pokemonCardId;
+    private Long pokemonCardId;
 
     private String name;
     private String rarity;
+
+    @ManyToOne
+    private PokemonSet pokemonSet;
 
     @Override
     public String toString() {
@@ -28,6 +29,14 @@ public class PokemonCard {
 
     public void setPokemonCardId(long pokemonCardId) {
         this.pokemonCardId = pokemonCardId;
+    }
+
+    public PokemonSet getPokemonSet() {
+        return pokemonSet;
+    }
+
+    public void setPokemonSet(PokemonSet pokemonSet) {
+        this.pokemonSet = pokemonSet;
     }
 
     public String getName() {

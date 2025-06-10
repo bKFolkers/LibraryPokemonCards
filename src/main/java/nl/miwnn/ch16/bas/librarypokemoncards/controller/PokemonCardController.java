@@ -15,7 +15,7 @@ import java.time.LocalDateTime;
 
 /**
  * @author Bas Folkers
- * Handle all requests related dirextly or primalily to Pokemon cards
+ * Handle all requests related directly or primalily to Pokemon cards
  */
 
 @Controller

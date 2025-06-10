@@ -16,7 +16,7 @@
     <tr th:each="pokemonCard : ${allPokemonCards}">
         <td th:text="${pokemonCard.getName()}"></td>
         <td th:text="${pokemonCard.getRarity()}"></td>
-        <td><a th:href="@{/pokemonCard/delete/{pokemonId}(pokemonId = ${pokemonCard.pokemonCardId})}">delete</a></td>
+        <td><a th:href="@{/pokemoncard/delete/{pokemonId}(pokemonId = ${pokemonCard.pokemonCardId})}">delete</a></td>
     </tr>
 </table>
 

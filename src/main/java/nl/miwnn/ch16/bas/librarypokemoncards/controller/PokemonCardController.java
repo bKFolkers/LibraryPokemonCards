@@ -51,7 +51,7 @@ public class PokemonCardController {
         return "redirect:/pokemoncard/overview";
     }
 
-    @GetMapping("/pokemoncard/delete/{bookId}")
+    @GetMapping("/pokemoncard/delete/{pokemonCardId}")
     private String deletePokemoncard(@PathVariable("pokemonCardId") Long pokemonCardId) {
         pokemonCardRepository.deleteById(pokemonCardId);
         return "redirect:/pokemoncard/overview";

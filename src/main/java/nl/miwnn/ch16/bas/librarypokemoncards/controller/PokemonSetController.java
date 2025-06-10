@@ -5,6 +5,7 @@ import nl.miwnn.ch16.bas.librarypokemoncards.model.PokemonSet;
 import nl.miwnn.ch16.bas.librarypokemoncards.repositories.PokemonCardRepository;
 import nl.miwnn.ch16.bas.librarypokemoncards.repositories.PokemonSetRepository;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -28,6 +29,13 @@ public class PokemonSetController {
         this.pokemonSetRepository = pokemonSetRepository;
     }
 
+    @GetMapping({"/", "/pokemonset/overview"})
+    private String showPokemonSetOverview(Model datamodel) {
+        datamodel.addAttribute("allPokemonSets", pokemonSetRepository.findAll());
+
+        return "pokemonSetOverview";
+    }
+
     @GetMapping("/new/{pokemonCardId}")
     private String createNewPokemonSet(@PathVariable("pokemonCardId") Long pokemonCardId) {
         Optional<PokemonCard> optionalCard = pokemonCardRepository.findById(pokemonCardId);
@@ -40,6 +48,8 @@ public class PokemonSetController {
             PokemonCard card = optionalCard.get();
             card.setPokemonSet(newSet);
             pokemonCardRepository.save(card);
+
+            return "redirect:/pokemoncard/overview";
         }
 
         return "redirect:/pokemoncard/overview";

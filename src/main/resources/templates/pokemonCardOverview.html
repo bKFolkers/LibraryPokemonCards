@@ -7,9 +7,16 @@
 <body>
     <h1>Overview of all the Pokemon cards in the library</h1>
 
-<p>
-    <span th:text="${nu}"></span>
-</p>
+<table>
+    <tr>
+        <th>Name</th>
+        <th>Rarity</th>
+    </tr>
+    <tr th:each="pokemonCard : ${allPokemonCards}">
+        <td th:text="${pokemonCard.getName()}"></td>
+        <td th:text="${pokemonCard.getRarity()}"></td>
+    </tr>
+</table>
 
 </body>
 </html>

@@ -2,6 +2,7 @@ package nl.miwnn.ch16.bas.librarypokemoncards.controller;
 
 import nl.miwnn.ch16.bas.librarypokemoncards.model.PokemonCard;
 import nl.miwnn.ch16.bas.librarypokemoncards.repositories.PokemonCardRepository;
+import nl.miwnn.ch16.bas.librarypokemoncards.repositories.PokemonSetRepository;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -21,12 +22,15 @@ import java.time.LocalDateTime;
 @Controller
 public class PokemonCardController {
     private final PokemonCardRepository pokemonCardRepository;
+    private final PokemonSetRepository pokemonSetRepository;
 
-    public PokemonCardController(PokemonCardRepository pokemonCardRepository) {
+    public PokemonCardController(PokemonCardRepository pokemonCardRepository,
+                                 PokemonSetRepository pokemonSetRepository) {
         this.pokemonCardRepository = pokemonCardRepository;
+        this.pokemonSetRepository = pokemonSetRepository;
     }
 
-    @GetMapping({"/", "/pokemoncard/overview"})
+    @GetMapping({"/pokemoncard/overview"})
     private String showPokemonCardOverview(Model datamodel) {
         datamodel.addAttribute("allPokemonCards", pokemonCardRepository.findAll());
 
@@ -36,6 +40,7 @@ public class PokemonCardController {
     @GetMapping("/pokemoncard/new")
     private String showNewPokemonCardForm(Model datamodel) {
         datamodel.addAttribute("formPokemonCard", new PokemonCard());
+        datamodel.addAttribute("allSets", pokemonSetRepository.findAll());
         return "pokemonCardForm";
     }
 

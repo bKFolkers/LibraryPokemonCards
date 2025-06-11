@@ -11,11 +11,13 @@
     <tr>
         <th>Name</th>
         <th>Rarity</th>
+        <th>Set</th>
         <th></th>
     </tr>
     <tr th:each="pokemonCard : ${allPokemonCards}">
         <td th:text="${pokemonCard.getName()}"></td>
         <td th:text="${pokemonCard.getRarity()}"></td>
+        <td th:text="${pokemonCard.getPokemonSet()}"></td>
         <td><a th:href="@{/pokemoncard/delete/{pokemonId}(pokemonId = ${pokemonCard.pokemonCardId})}">delete</a></td>
     </tr>
 </table>

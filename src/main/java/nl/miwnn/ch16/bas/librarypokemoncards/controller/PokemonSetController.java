@@ -17,14 +17,10 @@ import java.util.Optional;
  */
 
 @Controller
-@RequestMapping("/pokemonset")
 public class PokemonSetController {
-    private final PokemonCardRepository pokemonCardRepository;
     private final PokemonSetRepository pokemonSetRepository;
 
-    public PokemonSetController(PokemonCardRepository pokemonCardRepository,
-                                PokemonSetRepository pokemonSetRepository) {
-        this.pokemonCardRepository = pokemonCardRepository;
+    public PokemonSetController(PokemonSetRepository pokemonSetRepository) {
         this.pokemonSetRepository = pokemonSetRepository;
     }
 
@@ -53,23 +49,9 @@ public class PokemonSetController {
         return "redirect:/pokemonset/overview";
     }
 
-    @GetMapping("/new/{pokemonCardId}")
-    private String createNewPokemonSet(@PathVariable("pokemonCardId") Long pokemonCardId) {
-        Optional<PokemonCard> optionalCard = pokemonCardRepository.findById(pokemonCardId);
-
-        if (optionalCard.isPresent()) {
-            PokemonSet newSet = new PokemonSet();
-            newSet.setName("New set");
-            pokemonSetRepository.save(newSet);
-
-            PokemonCard card = optionalCard.get();
-            card.setPokemonSet(newSet);
-            pokemonCardRepository.save(card);
-
-            return "redirect:/pokemoncard/overview";
-        }
-
-        return "redirect:/pokemoncard/overview";
+    @GetMapping("/pokemonset/delete/{pokemonSetId}")
+    private String deletePokemonSet(@PathVariable("pokemonSetId") Long pokemonSetId) {
+        pokemonSetRepository.deleteById(pokemonSetId);
+        return "redirect:/";
     }
-
 }

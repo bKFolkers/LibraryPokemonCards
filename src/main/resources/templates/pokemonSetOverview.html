@@ -5,15 +5,17 @@
     <title>Overview of all Pokemon sets in the library</title>
 </head>
 <body>
-<h1>Overview of all the Pokemon sets in the library</h1>
+    <h1>Overview of all the Pokemon sets in the library</h1>
 
 <table>
     <tr>
-        <th>Name</th>
+        <th>Set name</th>
+        <th>Release Year</th>
         <th></th>
     </tr>
     <tr th:each="pokemonset : ${allPokemonSets}">
-        <td th:text="${pokemonset.getName()}"></td>
+        <td th:text="${pokemonset.getSetName()}"></td>
+        <td th:text="${pokemonset.getReleaseYear()}"></td>
         <td><a th:href="@{/pokemonset/delete/{pokemonSetId}(pokemonSetId = ${pokemonset.getPokemonSetId()})}">delete</a></td>
     </tr>
 </table>

@@ -14,10 +14,17 @@ public class PokemonSet {
 
     @Id @GeneratedValue
     private Long pokemonSetId;
-    private String name;
+
+    private String setName;
+    private String releaseYear;
 
     @OneToMany(mappedBy = "pokemonSet")
     private List<PokemonCard> pokemonCard;
+
+    @Override
+    public String toString() {
+        return String.format("%s", this.setName);
+    }
 
     public List<PokemonCard> getPokemonCard() {
         return pokemonCard;
@@ -35,11 +42,19 @@ public class PokemonSet {
         this.pokemonSetId = pokemonSetId;
     }
 
-    public String getName() {
-        return name;
+    public String getSetName() {
+        return setName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setSetName(String setName) {
+        this.setName = setName;
+    }
+
+    public String getReleaseYear() {
+        return releaseYear;
+    }
+
+    public void setReleaseYear(String releaseYear) {
+        this.releaseYear = releaseYear;
     }
 }

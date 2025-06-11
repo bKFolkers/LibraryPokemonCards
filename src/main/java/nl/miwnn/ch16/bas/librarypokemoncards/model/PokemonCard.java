@@ -9,14 +9,25 @@ import jakarta.persistence.*;
 
 @Entity
 public class PokemonCard {
+    public static final boolean DEFAULT_AVAILABLE = true;
     @Id @GeneratedValue
     private Long pokemonCardId;
 
     private String name;
     private String rarity;
+    private Boolean available;
 
     @ManyToOne
     private PokemonSet pokemonSet;
+
+    public PokemonCard(PokemonSet pokemonSet) {
+        this.pokemonSet = pokemonSet;
+        this.available = DEFAULT_AVAILABLE;
+    }
+
+//  Exists for JPA
+    public PokemonCard() {
+    }
 
     @Override
     public String toString() {
@@ -27,7 +38,7 @@ public class PokemonCard {
         return pokemonCardId;
     }
 
-    public void setPokemonCardId(long pokemonCardId) {
+    public void setPokemonCardId(Long pokemonCardId) {
         this.pokemonCardId = pokemonCardId;
     }
 
@@ -53,5 +64,13 @@ public class PokemonCard {
 
     public void setRarity(String rarity) {
         this.rarity = rarity;
+    }
+
+    public Boolean getAvailable() {
+        return available;
+    }
+
+    public void setAvailable(Boolean available) {
+        this.available = available;
     }
 }

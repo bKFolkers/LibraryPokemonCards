@@ -19,6 +19,7 @@
         <td th:text="${pokemonCard.getRarity()}"></td>
         <td th:text="${pokemonCard.getPokemonSet()}"></td>
         <td><a th:href="@{/pokemoncard/delete/{pokemonId}(pokemonId = ${pokemonCard.pokemonCardId})}">delete</a></td>
+        <td><a th:href="@{/pokemoncard/new/{pokemonId}(pokemonId = ${pokemonCard.pokemonCardId})}">add</a></td>
     </tr>
 </table>
 

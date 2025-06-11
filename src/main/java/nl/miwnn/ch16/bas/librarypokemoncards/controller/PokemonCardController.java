@@ -1,18 +1,17 @@
 package nl.miwnn.ch16.bas.librarypokemoncards.controller;
 
 import nl.miwnn.ch16.bas.librarypokemoncards.model.PokemonCard;
+import nl.miwnn.ch16.bas.librarypokemoncards.model.PokemonSet;
 import nl.miwnn.ch16.bas.librarypokemoncards.repositories.PokemonCardRepository;
 import nl.miwnn.ch16.bas.librarypokemoncards.repositories.PokemonSetRepository;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.Optional;
 
 /**
  * @author Bas Folkers
@@ -20,14 +19,27 @@ import java.time.LocalDateTime;
  */
 
 @Controller
+@RequestMapping("/pokemoncard")
 public class PokemonCardController {
-    private final PokemonCardRepository pokemonCardRepository;
     private final PokemonSetRepository pokemonSetRepository;
+    private final PokemonCardRepository pokemonCardRepository;
 
     public PokemonCardController(PokemonCardRepository pokemonCardRepository,
                                  PokemonSetRepository pokemonSetRepository) {
-        this.pokemonCardRepository = pokemonCardRepository;
         this.pokemonSetRepository = pokemonSetRepository;
+        this.pokemonCardRepository = pokemonCardRepository;
+    }
+
+    @GetMapping("/new/{pokemonSetId}")
+    private String addNewPokemonCard(@PathVariable("pokemonSetId") Long pokemonSetId) {
+        Optional<PokemonSet> optionalPokemonSet = pokemonSetRepository.findById(pokemonSetId);
+
+        if(optionalPokemonSet.isPresent()) {
+            PokemonCard pokemonCard = new PokemonCard(optionalPokemonSet.get());
+            pokemonCardRepository.save(pokemonCard);
+        }
+
+        return "redirect:/";
     }
 
     @GetMapping({"/pokemoncard/overview"})
@@ -37,12 +49,12 @@ public class PokemonCardController {
         return "pokemonCardOverview";
     }
 
-    @GetMapping("/pokemoncard/new")
-    private String showNewPokemonCardForm(Model datamodel) {
-        datamodel.addAttribute("formPokemonCard", new PokemonCard());
-        datamodel.addAttribute("allSets", pokemonSetRepository.findAll());
-        return "pokemonCardForm";
-    }
+//    @GetMapping("/pokemoncard/new")
+//    private String showNewPokemonCardForm(Model datamodel) {
+//        datamodel.addAttribute("formPokemonCard", new PokemonCard());
+//        datamodel.addAttribute("allSets", pokemonSetRepository.findAll());
+//        return "pokemonCardForm";
+//    }
 
     @PostMapping("/pokemoncard/save")
     private String saveOrUpdatePokemonCard(@ModelAttribute("formPokemonCard") PokemonCard pokemonCardToBeSaved,
